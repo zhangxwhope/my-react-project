@@ -6,12 +6,27 @@ interface Board {
     squares: any[];
     onClick: any;
   };
+  state: {
+    tables: any[];
+  };
 }
 
 class Board extends React.Component {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      tables: [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+      ],
+    };
+  }
+
   renderSquare(i: any) {
     return (
       <Square
+        key={i}
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
       />
@@ -21,21 +36,15 @@ class Board extends React.Component {
   render() {
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {this.state.tables.map((row, index) => {
+          return (
+            <div key={index} className="board-row">
+              {row.map((column: number) => {
+                return this.renderSquare(column);
+              })}
+            </div>
+          );
+        })}
       </div>
     );
   }
