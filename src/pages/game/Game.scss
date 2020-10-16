@@ -41,4 +41,10 @@
   .game-info {
     margin-left: 20px;
   }
+  .history-item {
+    &.active,
+    &.active * {
+      font-weight: bold;
+    }
+  }
 }
