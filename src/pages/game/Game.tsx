@@ -7,6 +7,7 @@ interface Game {
     history: any[];
     stepNumber: number;
     xIsNext: boolean;
+    isAscending: boolean;
   };
 }
 
@@ -21,10 +22,12 @@ class Game extends React.Component {
             x: 0,
             y: 0,
           },
+          timestamp: new Date().getTime(),
         },
       ],
       stepNumber: 0,
       xIsNext: true,
+      isAscending: true,
     };
   }
 
@@ -39,6 +42,7 @@ class Game extends React.Component {
         {
           squares: squares,
           position: position,
+          timestamp: new Date().getTime(),
         },
       ]),
       stepNumber: history.length,
@@ -57,6 +61,8 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calcWinner(current.squares);
+
+    // history.sort(compare('timestamp', !this.state.isAscending))
 
     const moves = history.map((step, move) => {
       const { x, y } = step.position;
@@ -85,6 +91,15 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
+          <div>
+            <button
+              onClick={() =>
+                this.setState({ isAscending: !this.state.isAscending })
+              }
+            >
+              {this.state.isAscending ? "⬆" : "⬇"}
+            </button>
+          </div>
           <ol>{moves}</ol>
         </div>
       </div>
@@ -112,5 +127,12 @@ function calcWinner(squares: any[]) {
   }
   return null;
 }
+
+// 根据数组中的某个字段进行排序
+// function compare(prop: string, isDesc = true) {
+//   return (a: any, b: any) => {
+//     return isDesc ? (b[prop] - a[prop]) : (a[prop] - b[prop])
+//   }
+// }
 
 export default Game;
