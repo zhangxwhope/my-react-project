@@ -23,12 +23,12 @@ class Board extends React.Component {
     };
   }
 
-  renderSquare(i: any) {
+  renderSquare(i: any, position: any) {
     return (
       <Square
         key={i}
         value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
+        onClick={() => this.props.onClick(i, position)}
       />
     );
   }
@@ -39,8 +39,8 @@ class Board extends React.Component {
         {this.state.tables.map((row, index) => {
           return (
             <div key={index} className="board-row">
-              {row.map((column: number) => {
-                return this.renderSquare(column);
+              {row.map((column: number, idx: number) => {
+                return this.renderSquare(column, { x: index + 1, y: idx + 1 });
               })}
             </div>
           );
