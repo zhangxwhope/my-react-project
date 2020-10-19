@@ -77,9 +77,11 @@ class Game extends React.Component {
         </li>
       );
     });
-
+    const isFull = history.slice(0, this.state.stepNumber + 1).length === 10;
     const status = winner
       ? `Winner: ${winner}`
+      : isFull
+      ? "平局"
       : `Next player: ${this.state.xIsNext ? "X" : "O"}`;
     return (
       <div className="game">
