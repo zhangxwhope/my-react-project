@@ -1,3 +1,4 @@
+@import "../../assets/css/color";
 .game {
   display: flex;
   flex-direction: row;
@@ -29,6 +30,9 @@
     padding: 0;
     text-align: center;
     width: 34px;
+    &.active {
+      background: $primaryColor;
+    }
   }
 
   .square:focus {

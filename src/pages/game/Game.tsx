@@ -35,7 +35,8 @@ class Game extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-    if (calcWinner(squares) || squares[i]) return;
+    const { winner } = calcWinner(squares);
+    if (winner || squares[i]) return;
     squares[i] = this.state.xIsNext ? "X" : "O";
     this.setState({
       history: history.concat([
@@ -60,7 +61,7 @@ class Game extends React.Component {
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    const winner = calcWinner(current.squares);
+    const { winner, line = [] } = calcWinner(current.squares);
 
     // history.sort(compare('timestamp', !this.state.isAscending))
 
@@ -88,6 +89,7 @@ class Game extends React.Component {
         <div className="game-board">
           <Board
             squares={current.squares}
+            line={line}
             onClick={(i: any, position: any) => this.handleClick(i, position)}
           />
         </div>
@@ -124,10 +126,13 @@ function calcWinner(squares: any[]) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return {
+        winner: squares[a],
+        line: lines[i],
+      };
     }
   }
-  return null;
+  return {};
 }
 
 // 根据数组中的某个字段进行排序

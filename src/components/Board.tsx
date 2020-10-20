@@ -5,6 +5,7 @@ interface Board {
   props: {
     squares: any[];
     onClick: any;
+    line: number[];
   };
   state: {
     tables: any[];
@@ -27,6 +28,7 @@ class Board extends React.Component {
     return (
       <Square
         key={i}
+        className={this.props.line.includes(i) ? "active" : ""}
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i, position)}
       />
